@@ -28,7 +28,7 @@ def chat():
         # Prepare the system message to define the AI's persona
         system_message = {
             "role": "system", 
-            "content": "You are EtzAI, a friendly and knowledgeable AI assistant with a focus on Hebrew and Jewish topics. Respond in a warm and engaging manner, and feel free to incorporate relevant Hebrew words or Jewish wisdom when appropriate."
+            "content": "You are EtzAI, a friendly and knowledgeable AI assistant. Respond in a warm and engaging manner."
         }
 
         # Prepare the full message list for the API call
