@@ -4,10 +4,8 @@ from anthropic import Anthropic
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
-
 app = Flask(__name__)
-app.secret_key = os.urandom(24)  # for session management
+app.secret_key = os.urandom(24) 
 CORS(app)
 
 anthropic = Anthropic(api_key=os.environ.get('ANTHROPIC_API_KEY'))
@@ -25,19 +23,14 @@ def chat():
     conversation.append({"role": "user", "content": user_message})
 
     try:
-        # Prepare the system message to define the AI's persona
-        system_message = {
-            "role": "system", 
-            "content": "You are EtzAI, a friendly and knowledgeable AI assistant. Respond in a warm and engaging manner."
-        }
-
         # Prepare the full message list for the API call
-        messages = [system_message] + conversation
+        messages = conversation
 
         response = anthropic.messages.create(
-            model="claude-3-haiku-20240307",
-            max_tokens=300,
-            messages=messages
+          model="claude-3-haiku-20240307",
+          max_tokens=300,
+          messages=messages,
+          system="You are EtzAI, a friendly and knowledgeable AI assistant. Respond in a warm and engaging manner."
         )
 
         ai_response = response.content[0].text
@@ -46,7 +39,7 @@ def chat():
         # Store updated conversation in session
         session['conversation'] = conversation[-10:]  # Keep last 10 messages
 
-        return jsonify({'response': ai_response, 'conversation': conversation})
+        return jsonify({'response': ai_response})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
